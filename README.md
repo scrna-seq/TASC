@@ -80,7 +80,7 @@ TASC -b -y y.txt -x x.txt -k ercc.txt -o output_dir/output_basename
 
 You can try out TASC using the x.txt, y.txt and ercc.txt under the example/ folder in our github repo. 
 
-Note: our method uses the Nelder-Mead simplex algorithm to numerically optimize the marginal likelihood. This requires a starting point on which the likelihood can be evaluated. Numerical underflow might happen if this starting point is not properly chosen. In this version, we set the starting point for all the coefficients in the linear model to be 1, which should be suitable for the majority of our users. However, if you are experiencing numerical instability, please [contact me](mailto:cheng.jia@outlook.com) for further assistance.
+Note: our method uses the Nelder-Mead simplex algorithm to numerically optimize the marginal likelihood. This requires a starting point on which the likelihood can be evaluated. Numerical underflow might happen if this starting point is not properly chosen. In this version, we set the starting point for all the coefficients in the linear model to be 1, which should be suitable for the majority of our users. However, if you are experiencing numerical instability, please [contact me](mailto:upenn-scrna-seq@outlook.com) for further assistance.
 
 #### parallel acceleration
 One of the important features of TASC is that it leverages thread-level parallelism to significantly speed up the computation. If you wish to use more than 1 core (which is highly recommended) to perform your analysis, please indicate that to TASC with the following option `-n`. For example, if you wish to use 8 threads to run the previous task, 
@@ -133,10 +133,10 @@ The above steps would require some understanding of the compiling and linking pr
 I apologize for not being able to provide a version of statically linked binary for OS X. This is partially due to [Apple's strong disapproval of statically linked executables](https://developer.apple.com/library/mac/qa/qa1118/_index.html). Another reason is that Apple has abandoned gcc/g++ since Mavericks, and their default C++ compiler does not natively support openMP, the de-facto thread-level parallelization library required by TASC. The workarounds are tedious and not necessarily beginner-friendly. 
 
 ### Technical Support
-Technical support is provided by [me](mailto:cheng.jia@outlook.com). Shoot me an E-mail if you have any question regarding our software.
+Technical support is provided by [me](mailto:upenn-scrna-seq@outlook.com). Shoot me an E-mail if you have any question regarding our software.
 
 ### License
-Copyright (c) <2015>
+Copyright (c) <2016>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
