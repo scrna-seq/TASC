@@ -21,7 +21,7 @@ The program has not been extensively tested on older versions of the above packa
 7. If the compilation is successful, the executable will appear in the build folder. If it fails, please check the versions of your Boost library and Gnu Scientific Library. Also make sure you only have ONE copy of the boost library. For example, if you also have rsem on your system, cmake might try to use the boost library embedded in rsem. The compilation will fail if that happens.
 
 #### Binary:
-If you have trouble compiling the program yourself, you can try the statically linked executable [here](https://raw.githubusercontent.com/jiach/TASC/master/binary/TASC).
+If you have trouble compiling the program yourself, you can try the statically linked executable [here](https://raw.githubusercontent.com/scrna-seq/TASC/master/binary/TASC).
 I have tested the executable on Red Hat Enterprise Linux Server release 6.6 (Santiago) and Ubuntu Linux 15.10 (Wily Werewolf).
 
 ### USAGE
