@@ -218,5 +218,10 @@ double dnorm(double x, double mean, double sd){
 
 double pchisq(double x){
 	boost::math::chi_squared_distribution<double> chi_sq (1);
-	return boost::math::cdf(chi_sq,x);
+    if (isnan(x)){
+        return nan("");
+    } else {
+        return boost::math::cdf(chi_sq,x);
+    }
+
 }
