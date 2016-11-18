@@ -79,11 +79,13 @@ public:
 	bool isLaplace();
 	bool isDisableSizeAdjustment();
 	void setDisableSizeAdjustment(bool dsa);
-
+	bool isLogistic();
+	void setLogistic(bool logistic);
 private:
 	int num_threads;
 	bool multi_threading;
 	bool laplace;
+	bool logistic;
 	std::string y_file_name;;
 	std::string x_file_name;;
 	std::string output_file_name;;

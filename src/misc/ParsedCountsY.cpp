@@ -135,9 +135,21 @@ void ParsedCountsY::initY(std::string fileNameY) {
 			}
 			geneCountsArr.push_back(geneCountDbl);
 		}
-		if (!this->addGene(geneName, geneCountsArr)){
-			timed_log("Sample sizes are not consistent across genes! Now exiting.");
-			exit(1);
+
+		size_t non_zero_nums = 0;
+		for (size_t i = 0; i < geneCountsArr.size(); ++i) {
+			if(geneCountsArr.at(i)!=0){
+				non_zero_nums++;
+			}
+		}
+
+		if(non_zero_nums>2){
+			if (!this->addGene(geneName, geneCountsArr)){
+				timed_log("Sample sizes are not consistent across genes! Now exiting.");
+				exit(1);
+			}
+		} else {
+			timed_log(geneName + " has less than 3 non_zero counts. Ignoring.");
 		}
 	}
 }

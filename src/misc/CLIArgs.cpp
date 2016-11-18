@@ -68,6 +68,7 @@ int CLIArgs::setAlmostAllParams(int num_threads,
 	this->run_vd = run_vd;
 	this->run_im = run_im;
 	this->verbose=verbose;
+	this->logistic=false;
 	return 0;
 }
 
@@ -275,4 +276,12 @@ bool CLIArgs::isDisableSizeAdjustment() {
 
 void CLIArgs::setDisableSizeAdjustment(bool dsa) {
 	this->disableSizeAdjustment = dsa;
+}
+
+bool CLIArgs::isLogistic(){
+	return this->logistic;
+}
+
+void CLIArgs::setLogistic(bool logistic){
+	this->logistic = logistic;
 }

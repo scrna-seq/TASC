@@ -39,6 +39,7 @@ int parseCommandLine(CLIArgs& prog_params, int argc, char* argv[]){
 			("vd,a","run variance decomposition and variance ratio ranking")
 			("de,b","run differential gene expression analysis")
 			("laplace,f", "use laplace approximation instead of adaptive integration. faster but might be less accurate.")
+			("noeb,c", "use naive logistics to estimate kappas and taus.")
 			("disable_size_adjustment,e","disable adjustment for total sequencing counts.")
 //			("em,a","run EM method")
 			("num_threads,n",boost::program_options::value<int>(&num_threads)->default_value(1),"number of threads")
@@ -94,6 +95,7 @@ int parseCommandLine(CLIArgs& prog_params, int argc, char* argv[]){
 	if (vm.count("vd")) {
 		run_vd = true;
 	}
+
 
 	run_im = false;
 
@@ -158,6 +160,11 @@ int parseCommandLine(CLIArgs& prog_params, int argc, char* argv[]){
 	prog_params.setScaleFactorBase(scale_factor_base);
 	prog_params.setLaplace(laplace);
 	prog_params.setDisableSizeAdjustment(disableSizeAdjustment);
+	if (vm.count("noeb")){
+		prog_params.setLogistic(true);
+	} else {
+		prog_params.setLogistic(false);
+	}
 	return 0;
 }
 

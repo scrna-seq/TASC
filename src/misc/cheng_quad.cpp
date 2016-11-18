@@ -24,7 +24,7 @@
 
 #include "cheng_quad.h"
 #include "cquad_const.cpp"
-#include "utils.h"
+//#include "utils.h"
 
 /* Allocates a workspace for the given maximum number of intervals.
     Note that if the workspace gets filled, the intervals with the

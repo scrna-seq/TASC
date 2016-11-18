@@ -36,6 +36,8 @@ private:
     std::vector<double> geneCounts;
     double initialSigma;
 
+
+
 };
 
 

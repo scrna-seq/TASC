@@ -30,6 +30,7 @@ private:
 	std::vector<double> cellTotalCounts;
 	std::vector<double> cellTotalCountsERCC;
 	std::vector<double> sizeFactors;
+	bool isGivenABKT=false;
 	ParsedERCC erccParser;
 	ParsedCountsY yParser;
 	ParsedCovariatesX xParser;
