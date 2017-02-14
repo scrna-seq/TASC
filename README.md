@@ -27,13 +27,14 @@ I have tested the executable on Red Hat Enterprise Linux Server release 6.6 (San
 ### USAGE
 In order to perform the DE gene analysis, TASC requires 3 headerless ASCII coded files, x.txt, y.txt and ercc.txt.
 
-#### x.txt
-This file codes the design matrix for your model. If you wish to test for differential expression between two groups of 4 cells, then the following x.txt can be used.
+#### x.txt (Covariates)
+To provide the values of the covariates, one needs to include a file that codes the design matrix for your model. The following example is to illustrate the format in which this file should be supplied. If you wish to test for differential expression between the first four cells and the last four cells, then the following x.txt can be used.
 
 ```
 intercept   1,1,1,1,1,1,1,1
 group       0,0,0,0,1,1,1,1
 ```
+In order to test for the significance of the coefficient associated with the group covariate, we need to indicate in the invoking command to TASC using the -t option. In the above example, `-t 2` should be used to perform the LRT testing whether the coefficient of the group covariate is significantly different from zero. 
 
 x.txt has no header. The first column contains the name of the covariates, and the second column contains the value of the covariates separated by comma. The two columns are separated by one tab.
 
@@ -45,9 +46,9 @@ group_2     0,0,0,1,1,1,0,0,0
 group_3     0,0,0,0,0,0,1,1,1
 ```
 
-At this point, TASC can only test for the significance of a single covariate. We have yet to implement the testing procedure for contrasts.
+If we want to test the significance of the coefficients associated with group_2 and group_3 independently, we can indicate in the invoking command to TASC like `-t 2,3`.
 
-#### y.txt
+#### y.txt (Read Counts)
 This file contains the read counts of each cell for all the genes. If you are testing for the differential expression of two genes G1 and G2, between two groups of 4 cells, y.txt should be formattted as, 
 
 ```
