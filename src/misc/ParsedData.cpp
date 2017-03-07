@@ -23,6 +23,7 @@
 #include "ParsedData.h"
 
 ParsedData::ParsedData() {
+    this->isGivenABKT = false;
     this->sampleSize = 0;
     this->initialHyperParamValues.e_kappa = -2;
     this->initialHyperParamValues.e_tau = 1;

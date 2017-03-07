@@ -16,9 +16,6 @@ ParsedERCC::ParsedERCC() {
 	this->numSamples = 0;
 }
 
-
-
-
 bool ParsedERCC::addERCCGene(std::vector<double> countsOfThisERCCGene){
 
 	if (countsOfThisERCCGene.empty()){
