@@ -294,32 +294,14 @@ double negLogLikelihood(const gsl_vector *t, void *params){
 	double sigma = *(pars + 6);
 	double y = *(pars + 8);
 
-
-
-
-//    double dpois_this = dpois(y,std::exp(alpha+beta*x));
-//    double base = (1.0-1.0/(1.0+std::exp(kappa+tau*x)))*dpois_this;
-//    if (y==0) {
-//        base = base + 1.0/(1.0+std::exp(kappa+tau*x));
-//    }
-//    double dnorm_this = dnorm(x,theta,sigma);
-//    base = base*dnorm_this;
-//    std::cout << "x:\t" << x <<"\t";
-//    std::cout << "y:\t" << y <<"\t";
-
 	double logdp = logDPois(y,alpha+beta*x);
-//    std::cout << "logdp:\t" << logdp << "\t";
 	double logexpit = logExpit(kappa+tau*x);
-//    std::cout << "logexpit:\t"<<logexpit << "\t";
 	double part_1 = logdp + logexpit;
-
-//    std::cout << logdp << "\t" << logexpit << std::endl;
-
 	double logdn = logDNorm(x,theta, sigma);
-//    std::cout << "logdn:\t" << logdn << std::endl;
 
 	double result = part_1;
 	if (y==0) {
+        // earlier version of the following line was wrong.
 		double part_2 = logDpois0(alpha + beta * x);
 		if ((part_1 - part_2) > 100) {
 			result = part_1;
@@ -328,9 +310,7 @@ double negLogLikelihood(const gsl_vector *t, void *params){
 		}
 	}
 
-
-//    std::cout << result+logdn<<std::endl;
-	return -(result+logdn);
+    return -(result+logdn);
 }
 
 
