@@ -229,7 +229,7 @@ void ParsedData::parseAndEstimateHyperParams(CLIArgs runningParams) {
     }
 
 
-    (*outputDevice).precision(std::numeric_limits<double>::max_digits10);
+    //(*outputDevice).precision(std::numeric_limits<double>::max_digits10);
     (*outputDevice) << "Alpha\tBeta\tKappa\tTau" << std::endl;
 
     for (size_t i = 0; i < this->sampleSize; i++) {
