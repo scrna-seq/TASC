@@ -320,7 +320,7 @@ double negLogLikelihood(const gsl_vector *t, void *params){
 
 	double result = part_1;
 	if (y==0) {
-		double part_2 = logDpois0(kappa + tau * x);
+		double part_2 = logDpois0(alpha + beta * x);
 		if ((part_1 - part_2) > 100) {
 			result = part_1;
 		} else {
