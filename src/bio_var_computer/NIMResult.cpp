@@ -3,6 +3,7 @@
 //
 
 #include "NIMResult.h"
+#include <cmath>
 
 void NIMResult::print_all(std::ostream &outputFileHandle, bool verbose) {
 
@@ -11,7 +12,7 @@ void NIMResult::print_all(std::ostream &outputFileHandle, bool verbose) {
     outputFileHandle << this->theta_t << "\t";
     outputFileHandle << this->bioVar << "\t";
     outputFileHandle << this->varY << "\t";
-    outputFileHandle << this->ratioOfBioVarToVarY << "\t";
+    outputFileHandle << std::exp(this->sigma_t) << "\t";
     outputFileHandle << this->isConverged << "\t";
     outputFileHandle << this->logLikelihood << std::endl;
 }
