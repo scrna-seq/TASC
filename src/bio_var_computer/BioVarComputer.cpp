@@ -73,10 +73,10 @@ void BioVarComputer::printAllResults() {
     }
     (*outputDevice) << "Gene Name" << "\t";
     (*outputDevice) << "NIM Aborted" << "\t";
-    (*outputDevice) << "Mean Expression" << "\t";
+    (*outputDevice) << "Theta" << "\t";
     (*outputDevice) << "Biological Variation" << "\t";
     (*outputDevice) << "Total Variation" << "\t";
-    (*outputDevice) << "Ratio Bio/Total" << "\t";
+    (*outputDevice) << "Sigma" << "\t";
     (*outputDevice) << "Likelihood Converged" << "\t";
     (*outputDevice) << "Log Likelihood" << std::endl;
     for (size_t i = 0; i < this->numGenes; ++i) {

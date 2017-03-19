@@ -24,4 +24,5 @@ double em_marginal_lklhood (std::vector<double> kappa,
 		size_t sample_size,
 		double epsabs);
 double de_marginal_lklhood(const gsl_vector *x, void *params);
+double quant_marginal_lklhood(const gsl_vector *x, void *params);
 #endif /* LIKELIHOOD_FUNCTIONS_H_ */

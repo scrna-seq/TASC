@@ -16,6 +16,7 @@
 #include "likelihood_functions.h"
 #include "adaptiveIntegrate.h"
 #include "../misc/cheng_quad.h"
+#include "../bio_var_computer/NimArgs.h"
 #include <cmath>
 
 double single_lklhood (double x, void * params){
@@ -137,58 +138,6 @@ double em_marginal_lklhood(std::vector<double> kappa,
 	gsl_integration_cquad_workspace_free(workspace);
 	return log_lklhood;
 }
-//
-//double de_marginal_lklhood(const gsl_vector *x, void *params){
-//	DEArgs *nim_args = (DEArgs *) params;
-//	gsl_vector *theta = gsl_vector_alloc(nim_args->sample_size);
-//	gsl_vector *beta = gsl_vector_alloc(x->size-1);
-//
-//	for (size_t i = 0; i<x->size-1; ++i){
-//		gsl_vector_set(beta,i,gsl_vector_get(x,i));
-//	}
-//
-//	double sigma = std::exp(gsl_vector_get(x,x->size-1));
-//	int status = gsl_blas_dgemv (CblasNoTrans, 1.0, nim_args->x, beta, 0.0, theta);
-//	if (status) {
-//		return nan("");
-//	}
-//	double pars[9];
-//	void * ptr_pars = pars;
-//	pars[0] = 0;
-//	pars[6] = sigma;
-//	gsl_function F_P;
-//	F_P.function = &single_lklhood;
-//	F_P.params = ptr_pars;
-//  	size_t workspace_size = 1000;
-//  	gsl_integration_cquad_workspace * workspace = gsl_integration_cquad_workspace_alloc(workspace_size);
-//	double log_lklhood=0;
-//
-//	for (size_t i=0; i<nim_args->sample_size; i++){
-//		pars[1] = nim_args->kappa.at(i);
-//		pars[2] = nim_args->tau.at(i);
-//		pars[3] = nim_args->alpha.at(i);
-//		pars[4] = nim_args->beta.at(i);
-//
-//		pars[5] = gsl_vector_get(theta,i);
-//		pars[7] = 1;
-//		pars[8] = nim_args->y.at(i);
-//		double integrated_result_p;
-//		double error;
-//		double epsrel = 1e-7;
-//		int status = adaptiveIntegrate(&F_P, pars, 0, epsrel, workspace, &integrated_result_p, &error);
-//		if (status!=0){
-//			timed_log("Exception: gsl_integration_cquad fails in de marignal likelihood at iteration "+std::to_string(i)+".");
-//			return nan("");
-//		}
-//		log_lklhood += std::log(integrated_result_p);
-//	}
-//	gsl_integration_cquad_workspace_free(workspace);
-//	gsl_vector_free(theta);
-//	gsl_vector_free(beta);
-//	return -log_lklhood;
-//}
-//
-
 
 double secondOrderDeriv(double a, double b, double k, double t, double sigma, double x, bool yIsZero){
 
@@ -202,7 +151,6 @@ double secondOrderDeriv(double a, double b, double k, double t, double sigma, do
 }
 
 double logDPois(double k, double log_lambda){
-	//std::cout << k << "\t" << log_lambda << std::endl;
 	return k*log_lambda-std::lgamma((long int)(k+1.5))-std::exp(log_lambda);
 }
 
@@ -226,61 +174,22 @@ double logDNorm(double x, double mu, double sigma){
 	}
 }
 
-double logDpois0(double x){
-	if (!std::isfinite(std::exp(x))){
-		return -x;
-	} else {
-		return std::log(1.0/(1.0+std::exp(x)));
-	}
+double logDpois0(double log_mean){
+	return -exp(log_mean);
 }
-//
-//double negLogLikelihood(double x, void *params){
-////    std::cout<<x<<"\t";
-//    double* pars = (double *) params;
-//    double kappa = *(pars + 1);
-//    double tau = *(pars + 2);
-//    double alpha = *(pars + 3);
-//    double beta = *(pars + 4);
-//    double theta = *(pars + 5);
-//    double sigma = *(pars + 6);
-//    double y = *(pars + 8);
-//
-//
-//
-////    double dpois_this = dpois(y,std::exp(alpha+beta*x));
-////    double base = (1.0-1.0/(1.0+std::exp(kappa+tau*x)))*dpois_this;
-////    if (y==0) {
-////        base = base + 1.0/(1.0+std::exp(kappa+tau*x));
-////    }
-////    double dnorm_this = dnorm(x,theta,sigma);
-////    base = base*dnorm_this;
-//
-//    double logdp = logDPois(y,alpha+beta*x);
-//    //std::cout << logdp << std::endl;
-//    double logexpit = logExpit(kappa+tau*x);
-////    std::cout << logexpit << std::endl;
-//    double part_1 = logdp + logexpit;
-//
-////    std::cout << logdp << "\t" << logexpit << std::endl;
-//
-//    double logdn = logDNorm(x,theta, sigma);
-////    std::cout << logdn << std::endl;
-//    double result = 0;
-//    if (y==0) {
-//        double part_2 = logDpois0(kappa + tau * x);
-//        if ((part_1 - part_2) > 100) {
-//            result = part_1;
-//        } else {
-//            result = std::log(std::exp(part_1 - part_2) + 1) + part_2;
-//        }
-//    }
-//
-//
-//    //std::cout << result+logdn<<std::endl;
-//    return -(result+logdn);
-//}
-//
-//
+
+double max2(double a, double b){
+    double max = a;
+    if (b>a){
+        max = b;
+    }
+    return max;
+}
+
+double log_sum_exp(double a, double b){
+    double max_el = max2(a,b);
+    return max_el + std::log(std::exp(a - max_el) + std::exp(b - max_el));
+}
 
 double negLogLikelihood(const gsl_vector *t, void *params){
 //    std::cout<<x<<"\t";
@@ -294,23 +203,15 @@ double negLogLikelihood(const gsl_vector *t, void *params){
 	double sigma = *(pars + 6);
 	double y = *(pars + 8);
 
-	double logdp = logDPois(y,alpha+beta*x);
-	double logexpit = logExpit(kappa+tau*x);
-	double part_1 = logdp + logexpit;
-	double logdn = logDNorm(x,theta, sigma);
+    double result;
 
-	double result = part_1;
 	if (y==0) {
-        // earlier version of the following line was wrong.
-		double part_2 = logDpois0(alpha + beta * x);
-		if ((part_1 - part_2) > 100) {
-			result = part_1;
-		} else {
-			result = std::log(std::exp(part_1 - part_2) + 1) + part_2;
-		}
-	}
+        result = log_sum_exp(logExpit(-kappa-tau*x), logExpit(kappa+tau*x) + logDpois0(alpha+beta*x));
+	} else {
+        result = logExpit(kappa+tau*x) + logDPois(y, alpha+beta*x);
+    }
 
-    return -(result+logdn);
+    return -(result+logDNorm(x,theta, sigma));
 }
 
 
@@ -451,8 +352,6 @@ double margSingleLikelihood(double (*fn1)(const gsl_vector *, void *), void *par
 
 
 
-
-//
 double de_marginal_lklhood(const gsl_vector *x, void *params){
 	DEArgs *nim_args = (DEArgs *) params;
 	gsl_vector *theta = gsl_vector_alloc(nim_args->sample_size);
@@ -483,16 +382,49 @@ double de_marginal_lklhood(const gsl_vector *x, void *params){
 		pars[5] = gsl_vector_get(theta,i);
 		pars[7] = 1;
 		pars[8] = nim_args->y.at(i);
-//		if (i==319){
-//            std::vector<double> pars_vec(pars,std::end(pars));
-//            verbose_timed_log(pars_vec,"pars");
-//            pars[0]=1;
-//		}
 
 		log_lklhood += margSingleLikelihood(&negLogLikelihood, pars, nim_args->epsabs, nim_args->laplace, nim_args->max_iter_cquad);
 	}
 	gsl_vector_free(theta);
 	gsl_vector_free(beta);
 	return -log_lklhood;
+}
+
+double quant_marginal_lklhood(const gsl_vector *x, void *params){
+    NimArgs *nim_args = (NimArgs *) params;
+
+    double sigma = std::exp(gsl_vector_get(x,1));
+
+    if (std::isinf(sigma)){
+        return 1.0/0.0;
+    }
+
+
+    double pars[9];
+    void * ptr_pars = pars;
+
+    pars[0] = 0;
+    pars[5] = gsl_vector_get(x,0);
+    pars[6] = sigma;
+    pars[7] = 1;
+
+    gsl_function F_P;
+    F_P.function = &single_lklhood;
+    F_P.params = ptr_pars;
+    size_t workspace_size = 1000;
+    gsl_integration_cquad_workspace * workspace = gsl_integration_cquad_workspace_alloc(workspace_size);
+    double log_lklhood=0;
+
+    for (size_t i=0; i<nim_args->sample_size; i++){
+        pars[1] = nim_args->kappa.at(i);
+        pars[2] = nim_args->tau.at(i);
+        pars[3] = nim_args->alpha.at(i);
+        pars[4] = nim_args->beta.at(i);
+        pars[8] = nim_args->y.at(i);
+
+        log_lklhood += margSingleLikelihood(&negLogLikelihood, pars, nim_args->epsabs, false, 2000);
+    }
+    gsl_integration_cquad_workspace_free(workspace);
+    return -log_lklhood;
 }
 

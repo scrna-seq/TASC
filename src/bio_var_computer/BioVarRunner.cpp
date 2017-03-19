@@ -6,8 +6,8 @@
 #include "../misc/basic_math.h"
 #include "../misc/utils.h"
 #include "NimArgs.h"
-#include "NimMarginalLikelihood.h"
 #include <gsl/gsl_multimin.h>
+#include "../em_nim_algo/likelihood_functions.h"
 
 BioVarRunner::BioVarRunner() {
     epsabs = 1e-7;
@@ -105,7 +105,7 @@ void BioVarRunner::runModel() {
 
     /* Initialize method and iterate */
     minex_func.n = 2;
-    minex_func.f = &nim_marginal_lklhood;
+    minex_func.f = &quant_marginal_lklhood;
     minex_func.params = (void *)&nimArgs;
 
     s = gsl_multimin_fminimizer_alloc (T, 2);

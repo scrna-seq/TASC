@@ -10,7 +10,6 @@
 #include "misc/ParsedCountsY.h"
 #include "misc/ParsedERCC.h"
 #include "misc/ParsedData.h"
-#include "em_nim_algo/EMThreads.h"
 #include "em_nim_algo/NIMThreads.h"
 #include "bio_var_computer/BioVarComputer.h"
 

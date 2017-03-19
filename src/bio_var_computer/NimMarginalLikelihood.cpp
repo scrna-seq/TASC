@@ -8,16 +8,9 @@
 #include "../em_nim_algo/adaptiveIntegrate.h"
 #include "../misc/utils.h"
 #include <cmath>
-#include <gsl/gsl_math.h>
-#include <gsl/gsl_integration.h>
-#include <limits>
 
 
 double nim_marginal_lklhood(const gsl_vector *x, void *params){
-    // x is a vector of size 2;
-    // mu x[0]
-    // log(sigma) x[1]
-
     NimArgs *nim_args = (NimArgs *) params;
 
     double sigma = std::exp(gsl_vector_get(x,1));
@@ -35,7 +28,6 @@ double nim_marginal_lklhood(const gsl_vector *x, void *params){
     pars[6] = sigma;
     pars[7] = 1;
 
-//    timed_log("sigma:"+std::to_string((long double)sigma));
     gsl_function F_P;
     F_P.function = &single_lklhood;
     F_P.params = ptr_pars;

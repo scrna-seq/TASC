@@ -25,12 +25,6 @@ set(SOURCE_FILES
         src/misc/cheng_quad.h
         src/misc/cquad_const.cpp
         src/misc/cheng_quad.cpp
-        src/em_nim_algo/EMResult.cpp
-        src/em_nim_algo/EMResult.h
-        src/em_nim_algo/EMRunner.cpp
-        src/em_nim_algo/EMRunner.h
-        src/em_nim_algo/EMThreads.cpp
-        src/em_nim_algo/EMThreads.h
         src/em_nim_algo/likelihood_functions.cpp
         src/em_nim_algo/likelihood_functions.h
         src/em_nim_algo/DEArgs.cpp
